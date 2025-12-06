@@ -1,0 +1,25 @@
+steps:
+  # Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/docker-repo/mi-app-node:latest', '.']
+
+  # Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/docker-repo/mi-app-node:latest']
+
+  # Deploy
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'mi-app-node'
+      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/docker-repo/mi-app-node:latest'
+      - '--region=us-central1'
+      - '--allow-unauthenticated'
+      - '--min-instances=0'
+      - '--max-instances=1'
+      - '--set-env-vars=FIREBASE_PROJECT_ID=$PROJECT_ID'
+
+images:
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/docker-repo/mi-app-node:latest'
