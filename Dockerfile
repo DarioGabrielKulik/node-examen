@@ -17,13 +17,12 @@ FROM node:18-alpine AS production
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV PORT=8080
 ENV FIREBASE_PROJECT_ID=api-node-480420
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/ ./  
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["node", "index.js"]
