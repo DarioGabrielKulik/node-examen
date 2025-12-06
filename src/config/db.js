@@ -1,16 +1,28 @@
+// import { initializeApp } from 'firebase-admin/app';
+// import { getFirestore } from 'firebase-admin/firestore';
+
+// // Inicializar sin credenciales para el emulador
+// initializeApp({
+//   projectId: 'demo-project-id',
+// });
+
+// // Configurar para usar el emulador
+// const db = getFirestore();
+// db.settings({
+//   host: 'localhost:8080',
+//   ssl: false
+// });
+
+// export default db;
+
 import { initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 
-// Inicializar sin credenciales para el emulador
+// Cloud Run automáticamente provee las credenciales de GCP
 initializeApp({
-  projectId: 'demo-project-id',
+  projectId: process.env.FIREBASE_PROJECT_ID,
 });
 
-// Configurar para usar el emulador
 const db = getFirestore();
-db.settings({
-  host: 'localhost:8080',
-  ssl: false
-});
 
 export default db;
